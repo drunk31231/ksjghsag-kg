@@ -216,16 +216,3 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
-
-# Кэш Python
-__pycache__/
-*.pyc
-
-# Системные файлы
-.DS_Store
-
-# Данные приложения (не храним персональные данные тренировок в репозитории)
-trainings.json
-
-# Виртуальное окружение (если используете venv)
-venv/
