@@ -9,7 +9,7 @@ class TrainingPlannerApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Training Planner")
-        self.root.geometry("700x500")
+        self.root.geometry("800x500")
 
         # Переменные для фильтрации
         self.filter_type_var = tk.StringVar()
@@ -27,15 +27,15 @@ class TrainingPlannerApp:
         frame_input.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
 
         ttk.Label(frame_input, text="Дата (ГГГГ-ММ-ДД):").grid(row=0, column=0, sticky="w", pady=2)
-        self.date_entry = ttk.Entry(frame_input)
+        self.date_entry = ttk.Entry(frame_input, width=20)
         self.date_entry.grid(row=0, column=1, sticky="ew", pady=2)
 
         ttk.Label(frame_input, text="Тип тренировки:").grid(row=1, column=0, sticky="w", pady=2)
-        self.type_entry = ttk.Entry(frame_input)
+        self.type_entry = ttk.Entry(frame_input, width=20)
         self.type_entry.grid(row=1, column=1, sticky="ew", pady=2)
 
         ttk.Label(frame_input, text="Длительность (мин):").grid(row=2, column=0, sticky="w", pady=2)
-        self.duration_entry = ttk.Entry(frame_input)
+        self.duration_entry = ttk.Entry(frame_input, width=20)
         self.duration_entry.grid(row=2, column=1, sticky="ew", pady=2)
 
         ttk.Button(frame_input, text="Добавить тренировку", command=self.add_training).grid(
@@ -65,10 +65,9 @@ class TrainingPlannerApp:
         self.tree.heading("type", text="Тип")
         self.tree.heading("duration", text="Длительность (мин)")
         
-        # Настройка ширины колонок
-        self.tree.column("date", width=150)
-        self.tree.column("type", width=250)
-        self.tree.column("duration", width=150)
+        self.tree.column("date", anchor="center", width=150)
+        self.tree.column("type", anchor="center", width=350)
+        self.tree.column("duration", anchor="center", width=150)
         
         self.tree.grid(row=4, column=0, columnspan=2, padx=10, pady=(0, 10), sticky="nsew")
 
@@ -129,13 +128,13 @@ class TrainingPlannerApp:
                self.tree.item(child, tags='show')
            else:
                self.tree.item(child, tags='hide')
-       self.tree.tag_configure('hide', elide=True) # Скрывает строки с тегом 'hide'
+       self.tree.tag_configure('hide', elide=True) 
     
     def reset_filter(self):
        self.filter_type_var.set("")
        self.filter_date_var.set("")
        for child in self.tree.get_children():
-           self.tree.item(child, tags='') # Сбрасываем теги фильтрации
+           self.tree.item(child, tags='')
        self.tree.tag_configure('hide', elide=True) 
     
     # --- Логика работы с JSON ---
@@ -161,7 +160,7 @@ class TrainingPlannerApp:
                self.tree.delete(child)
            
            for row in data:
-               if len(row) == 3: # Проверка структуры данных на случай повреждения файла
+               if len(row) == 3: 
                    self.tree.insert("", "end", values=tuple(row))
        except Exception as e:
            messagebox.showerror("Ошибка загрузки", f"Не удалось загрузить данные: {e}")
